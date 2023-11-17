@@ -61,7 +61,7 @@ fn cipher(x: char, cipher_map: &[char; 26]) -> char {
     cipher_map[base_a as usize]
 }
 
-const COMMON_WORDS: &[&str] = &["never", "give", "up", "you", "want", "the"];
+const COMMON_WORDS: &[&str] = &["never", "give", "up", "you", "want", "the", "we"];
 
 fn score(s: &str) -> usize {
     let mut score = 0;
