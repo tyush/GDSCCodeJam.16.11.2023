@@ -1,0 +1,54 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>final countdown</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+        <!-- Place favicon.ico in the root directory -->
+
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">
+            You are using an <strong>outdated</strong> browser. Please
+            <a href="http://browsehappy.com/">upgrade your browser</a> to improve
+            your experience.
+            </p>
+        <![endif]-->
+
+
+        <div id="countdown">how is your pc this slow</div>
+        <audio loop autoplay>
+            <source src="Europe - The Final Countdown.mp3" type="audio/mp3">
+            no final countdown :\(
+        </audio>
+        <script type="text/javascript">
+
+         let counter = document.getElementById("countdown");
+
+         const newYears = new Date("1 January 2024 00:00");
+
+         setInterval((e) => {
+             let now = Date.now();
+
+             let msUntil = Math.abs(now - newYears);
+
+             let hours = Math.floor(msUntil / 3600000);
+             msUntil -= hours * 3600000;
+
+             let minutes = Math.floor(msUntil / 60000);
+             msUntil -= minutes * 60000;
+
+             let seconds = Math.floor(msUntil / 1000);
+
+             counter.innerHTML = String(hours).padStart(2, "0") + ":" + String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
+         }, 1000)
+
+        </script>
+
+    </body>
+</html>
