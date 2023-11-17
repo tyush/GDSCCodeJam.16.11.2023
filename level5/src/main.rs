@@ -8,6 +8,7 @@ fn main() {
 struct AppState {
     stick_counts: Vec<isize>,
     sticks: isize,
+    sticks_ai: isize,
     curr_turn: usize,
     lost: Option<usize>,
 }
@@ -25,6 +26,7 @@ impl Sandbox for AppState {
         AppState {
             curr_turn: 0,
             sticks: 20,
+            sticks_ai: 0,
             lost: None,
             stick_counts: vec![0, 0],
         }
@@ -44,6 +46,16 @@ impl Sandbox for AppState {
                 self.stick_counts[player] += amt;
                 self.sticks -= amt;
                 self.curr_turn += 1;
+                if self.curr_turn == self.stick_counts.len() {
+                    // ai turn!
+                    if self.sticks <= 4 {
+                        self.sticks_ai += self.sticks - 1;
+                        self.sticks -= self.sticks - 1;
+                    } else {
+                        self.sticks_ai += 1;
+                        self.sticks -= 1;
+                    }
+                }
                 self.curr_turn %= self.stick_counts.len();
             }
             AppMsg::AddPlayer => self.stick_counts.push(0),
@@ -54,9 +66,13 @@ impl Sandbox for AppState {
         use iced::widget as w;
 
         if let Some(loser) = self.lost {
-            w::Text::new(format!("Player {loser} lost!!!"))
-                .size(Pixels(98.))
-                .into()
+            if loser == self.stick_counts.len() {
+                w::Text::new(format!("AI lost!!!")).size(Pixels(98.)).into()
+            } else {
+                w::Text::new(format!("Player {loser} lost!!!"))
+                    .size(Pixels(98.))
+                    .into()
+            }
         } else {
             w::Column::new()
                 .height(Length::Fill)
@@ -68,7 +84,7 @@ impl Sandbox for AppState {
                             .push(w::text(format!("Player {i} - Score {score}")))
                             .push(w::text("     "));
                     }
-                    players
+                    players.push(w::text(format!("AI - Score {}", self.sticks_ai)))
                 })
                 .push(w::Text::new(format!("Sticks in Pile - {}", self.sticks)).size(Pixels(28.)))
                 .push(w::Text::new(format!("Player {} Turn", self.curr_turn)).size(Pixels(28.)))
